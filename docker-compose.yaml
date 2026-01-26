@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  label-studio:
+    image: heartexlabs/label-studio:latest
+    ports:
+      - "8080:8080"

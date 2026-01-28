@@ -1,5 +1,6 @@
 import os
 from pdf2image import convert_from_path
+from PIL.Image import DecompressionBombError
 
 PDF_FOLDER = "pdfs"
 PAGE_IMAGES_FOLDER = "page_images"
@@ -11,7 +12,10 @@ def create_page_images_from_pdf(input_pdf):
     if not os.path.exists(PAGE_IMAGES_FOLDER):
         os.makedirs(PAGE_IMAGES_FOLDER)
 
-    pages = convert_from_path(os.path.join(PDF_FOLDER, input_pdf), dpi=300)
+    try:
+        pages = convert_from_path(os.path.join(PDF_FOLDER, input_pdf), dpi=300)
+    except DecompressionBombError as e:
+        print(f"Error: {e}. Skipping {input_pdf}")
 
     for i, page in enumerate(pages):
         filename, file_extension = os.path.splitext(input_pdf)
